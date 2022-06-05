@@ -18,3 +18,7 @@ Vulnerability scanning and exploitation :
 - Database access 
 - Elevation of privilege.	
 - Securing the system 
+
+
+
+Counting, attack process, trail sweeping.
